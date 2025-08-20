@@ -104,7 +104,8 @@ modeSwitchBtn.onclick = () => {
 };
 
 // Initial load
-loadKeys(scientficButtons);
+loadKeys(scientificButtons);
+
 
 
 
