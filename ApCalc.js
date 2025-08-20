@@ -6,7 +6,7 @@ const radBtn = document.getElementById('rad');
 const modeSwitchBtn = document.getElementById('modeSwitch');
 
 let expr = '', mode = 'DEG', memory = 0;
-let calcType = 'scientific'; // or 'simple'
+let calcType = 'Standard'; // or 'scientific'
 
 // Button layouts
 const simpleButtons = [
@@ -104,6 +104,7 @@ modeSwitchBtn.onclick = () => {
 };
 
 // Initial load
-loadKeys(scientificButtons);
+loadKeys(simpleButtons);
+
 
 
