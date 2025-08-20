@@ -6,7 +6,7 @@ const radBtn = document.getElementById('rad');
 const modeSwitchBtn = document.getElementById('modeSwitch');
 
 let expr = '', mode = 'DEG', memory = 0;
-let calcType = 'scientific'; // or 'standard'
+let calcType = 'scientific'; // or 'simple'
 
 // Button layouts
 const simpleButtons = [
@@ -72,8 +72,7 @@ function calc() {
       .replace(/\^/g, '**')
       .replace(/ln/g, 'Math.log')
       .replace(/log/g, 'Math.log10')
-      .replace(/(\d+)!/g, (_, n) => fact(parseInt(n))) 
-      .replace(/(\d+(\.\d+)?)%/g, (_, num) => `(${num}/100)`)
+      .replace(/x!/g, match => fact(parseFloat(expr.match(/(\d+)(?=!)/)?.[0] || 0)))
       .replace(/sin/g, 'Math.sin')
       .replace(/cos/g, 'Math.cos')
       .replace(/tan/g, 'Math.tan');
@@ -105,7 +104,3 @@ modeSwitchBtn.onclick = () => {
 
 // Initial load
 loadKeys(scientificButtons);
-
-
-
-
