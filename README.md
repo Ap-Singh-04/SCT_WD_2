@@ -19,3 +19,8 @@ Built with HTML, CSS, and JavaScript, it provides a user-friendly interface, res
 🛡️ Error Handling – Prevents invalid inputs and shows clear error messages.
 
 🎨 Clean UI – Simple, modern, and user-friendly interface.
+
+🌐 Demo
+
+You can try the calculator live here:
+👉 https://ap-singh-04.github.io/SCT_WD_2/
