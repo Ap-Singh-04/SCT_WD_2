@@ -97,10 +97,11 @@ radBtn.onclick = () => { mode = 'RAD'; radBtn.classList.add('active'); degBtn.cl
 
 // Mode switch
 modeSwitchBtn.onclick = () => {
-  calcType = calcType === 'scientific' ? 'Standard' : 'scientific';
+  calcType = calcType === 'Standard' ? 'Standard' : 'scientific';
   modeSwitchBtn.textContent = calcType === 'scientific' ? 'Scientific' : 'Standard';
   loadKeys(calcType === 'scientific' ? scientificButtons : simpleButtons);
 };
 
 // Initial load
 loadKeys(scientificButtons);
+
