@@ -19,7 +19,7 @@
 body {
     margin: 0;
     font-family: sans-serif;
-    background: url('Maths-bg1.jpg') no-repeat center center fixed;
+    background: url('Maths-bg2.jpg') no-repeat center center fixed;
     background-size: cover;
     color: var(--color-text);
     display: grid;
@@ -132,4 +132,5 @@ button {
 .equals:hover {
     background: #3d8a63;
 }
+
 
