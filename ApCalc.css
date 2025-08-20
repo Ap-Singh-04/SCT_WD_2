@@ -1,0 +1,134 @@
+/* ===== THEME VARIABLES ===== */
+:root {
+    --bg-main: #0b0d12;
+    --bg-calc: rgba(15, 19, 27, 0.4); /* semi-transparent for bg image to show */
+    --bg-bar: rgba(12, 17, 24, 0.3);
+    --bg-keys: rgba(10, 14, 22, 0.3);
+    --color-text: #ffffff;
+    --color-subtext: #cfd8e3;
+    --color-op: #b8cffb;
+    --color-fn: #9be4b1;
+    --color-danger: #ffb1b1;
+    --btn-primary: #25407a;
+    --btn-equals: #2d6b4a;
+    --radius: 18px;
+    --gap: 6px;
+}
+
+/* ===== BASE ===== */
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background: url('img/Maths-bg1.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: var(--color-text);
+    display: grid;
+    place-items: center;
+    height: 100vh;
+}
+
+button {
+    font: inherit;
+    cursor: pointer;
+}
+
+/* ===== CALCULATOR ===== */
+.calc {
+    background: var(--bg-calc);
+    border-radius: var(--radius);
+    overflow: hidden;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0,0,0,.45);
+}
+
+/* ===== HEADER ===== */
+.bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: var(--bg-bar);
+    color: var(--color-subtext);
+}
+
+.controls {
+    display: flex;
+    gap: var(--gap);
+}
+
+.toggle button, #modeSwitch {
+    background: none;
+    border: none;
+    padding: 4px 8px;
+    color: var(--color-subtext);
+    border-radius: 999px;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+}
+.toggle button:hover, #modeSwitch:hover {
+    background: rgba(243, 23, 23, 0.1);
+    transform: scale(1.05);
+}
+
+.toggle .active {
+    background: #7aa2ff;
+    color: #000;
+}
+
+/* ===== DISPLAY ===== */
+.display {
+    padding: 15px 20px 0px 20px;
+    min-height: 100px; /* Increased height */
+}
+
+.expr {
+    font-size: 25px; /* Bigger text */
+    color: var(--color-subtext);
+    min-height: 34px;
+}
+
+.result {
+    font-size: 32px; /* Larger result font */
+    font-weight: bold;
+    color: #f0dddd; /* Bright white for clarity */
+}
+
+/* ===== KEYS ===== */
+.keys {
+    display: grid;
+    gap: var(--gap);
+    padding: 8px;
+    background: var(--bg-keys);
+}
+
+.keys button {
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    background: rgba(15, 24, 38, 0.9);
+    color: inherit;
+    border: 1px solid #172033;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.keys button:hover {
+    background-color: #1e2b42;
+    transform: scale(1.05);
+}
+
+.keys button:active {
+    transform: scale(0.97);
+}
+
+.op { color: var(--color-op); }
+.fn { color: var(--color-fn); }
+.danger { color: var(--color-danger); }
+
+.equals {
+    background: var(--btn-equals);
+    border-color: var(--btn-equals);
+}
+
+.equals:hover {
+    background: #3d8a63;
+}

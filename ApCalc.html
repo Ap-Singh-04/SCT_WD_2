@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dark Scientific Calculator</title>
+  <link rel="stylesheet" href="ApCalc.css">
+</head>
+<body>
+  <main class="calc">
+    <header class="bar">
+      <span class="title">CAL C</span>
+      <div class="controls">
+        <button id="modeSwitch">Scientific</button>
+        <div class="toggle">
+          <button id="deg" class="active">DEG</button>
+          <button id="rad">RAD</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="display">
+      <div id="expr" class="expr"></div>
+      <div id="res" class="result">0</div>
+    </section>
+
+    <section class="keys" id="keys"></section>
+  </main>
+  <script src="ApCalc.js"></script>
+</body>
+</html>
