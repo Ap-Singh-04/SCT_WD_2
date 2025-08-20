@@ -72,7 +72,8 @@ function calc() {
       .replace(/\^/g, '**')
       .replace(/ln/g, 'Math.log')
       .replace(/log/g, 'Math.log10')
-      .replace(/x!/g, match => fact(parseFloat(expr.match(/(\d+)(?=!)/)?.[0] || 0)))
+      .replace(/(\d+)!/g, (_, n) => fact(parseInt(n))) 
+      .replace(/(\d+(\.\d+)?)%/g, (_, num) => `(${num}/100)`)
       .replace(/sin/g, 'Math.sin')
       .replace(/cos/g, 'Math.cos')
       .replace(/tan/g, 'Math.tan');
@@ -97,11 +98,12 @@ radBtn.onclick = () => { mode = 'RAD'; radBtn.classList.add('active'); degBtn.cl
 
 // Mode switch
 modeSwitchBtn.onclick = () => {
-  calcType = calcType === 'Standard' ? 'Standard' : 'scientific';
+  calcType = calcType === 'scientific' ? 'Standard' : 'scientific';
   modeSwitchBtn.textContent = calcType === 'scientific' ? 'Scientific' : 'Standard';
   loadKeys(calcType === 'scientific' ? scientificButtons : simpleButtons);
 };
 
 // Initial load
 loadKeys(scientificButtons);
+
 
