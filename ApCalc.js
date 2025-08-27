@@ -23,14 +23,13 @@ const scientificButtons = [
   '7','8','9','/','pi','⌫',
   '4','5','6','*','ln','log',
   '1','2','3','-','e','x!',
-  '0','.','+','%','=',' '
+  '0','.','+','%','=','exp','mod'
 ];
 
 // Load keypad layout
 function loadKeys(layout) {
   keysEl.innerHTML = '';
 
-  // Decide column count: 6 for scientific, 4 for simple
   const cols = (calcType === 'scientific') ? 6 : 4;
   keysEl.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
 
@@ -66,30 +65,65 @@ function mapSymbol(s) {
 // Calculate
 function calc() {
   try {
-    let val = expr
-      .replace(/π/g, Math.PI)
-      .replace(/√/g, 'Math.sqrt')
-      .replace(/\^/g, '**')
-      .replace(/ln/g, 'Math.log')
-      .replace(/log/g, 'Math.log10')
-      .replace(/x!/g, match => fact(parseFloat(expr.match(/(\d+)(?=!)/)?.[0] || 0)))
-      .replace(/sin/g, 'Math.sin')
-      .replace(/cos/g, 'Math.cos')
-      .replace(/tan/g, 'Math.tan');
+    let exp = expr;
 
-    if (mode === 'DEG') {
-      val = val.replace(/Math\.(sin|cos|tan)\((.*?)\)/g,
-        (_, fn, arg) => `Math.${fn}((${arg})*Math.PI/180)`);
-    }
+    // Replace constants
+    exp = exp.replace(/π/g, Math.PI);
+    exp = exp.replace(/\be\b/g, Math.E);
 
-    resEl.textContent = Function(`return ${val}`)();
-  } catch {
+    // Factorial
+    exp = exp.replace(/(\d+)!/g, (_, n) => fact(parseInt(n)));
+
+    // Percent: convert "50%" → "(50/100)"
+    exp = exp.replace(/(\d+(\.\d+)?)%/g, (_, num) => `(${num}/100)`);
+
+    // Square root √(x) or √x
+    exp = exp.replace(/√\((.*?)\)/g, (_, val) => `Math.sqrt(${val})`);
+    exp = exp.replace(/√(\d+(\.\d+)?)/g, (_, num) => `Math.sqrt(${num})`);
+
+    // Power ^
+    exp = exp.replace(/(\d+(\.\d+)?)(\^)(\d+(\.\d+)?)/g, (_, base, __, ___, pow) => `Math.pow(${base},${pow})`);
+
+    // Modulus: "a mod b" → "(a % b)"
+    exp = exp.replace(/(\d+)\s*mod\s*(\d+)/g, (_, a, b) => `(${a} % ${b})`);
+
+    // Exponential exp(x)
+    exp = exp.replace(/\bexp\((.*?)\)/g, (_, val) => `Math.exp(${val})`);
+
+    // Logarithms
+    exp = exp.replace(/\blog\((.*?)\)/g, (_, val) => `Math.log10(${val})`);
+    exp = exp.replace(/\bln\((.*?)\)/g, (_, val) => `Math.log(${val})`);
+
+    // Trig functions
+    exp = exp.replace(/\bsin\((.*?)\)/g, (_, val) => trig('sin', val));
+    exp = exp.replace(/\bcos\((.*?)\)/g, (_, val) => trig('cos', val));
+    exp = exp.replace(/\btan\((.*?)\)/g, (_, val) => trig('tan', val));
+
+    // Evaluate safely
+    const result = Function(`"use strict"; return (${exp})`)();
+    resEl.textContent = result;
+  } catch (err) {
     resEl.textContent = 'Error';
+    console.error(err);
   }
 }
 
 // Factorial
-function fact(n) { return n <= 1 ? 1 : n * fact(n - 1); }
+function fact(n) {
+  if (n < 0) return NaN;
+  if (n === 0 || n === 1) return 1;
+  return n * fact(n - 1);
+}
+
+// Handle trig in DEG or RAD
+function trig(fn, val) {
+  const num = parseFloat(val);
+  if (isNaN(num)) return `Math.${fn}(0)`;
+  if (mode === 'DEG') {
+    return `Math.${fn}(${num} * Math.PI / 180)`;
+  }
+  return `Math.${fn}(${num})`;
+}
 
 // DEG/RAD toggle
 degBtn.onclick = () => { mode = 'DEG'; degBtn.classList.add('active'); radBtn.classList.remove('active'); };
@@ -97,7 +131,7 @@ radBtn.onclick = () => { mode = 'RAD'; radBtn.classList.add('active'); degBtn.cl
 
 // Mode switch
 modeSwitchBtn.onclick = () => {
-  calcType = calcType === 'scientific' ? 'Standard' : 'scientific';
+  calcType = calcType === 'scientific' ? 'simple' : 'scientific';
   modeSwitchBtn.textContent = calcType === 'scientific' ? 'Scientific' : 'Standard';
   loadKeys(calcType === 'scientific' ? scientificButtons : simpleButtons);
 };
